@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:14 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/03/25 19:44:33 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:43:38 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,4 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_bzero(ptr, size * count);
 	return (ptr);
 }
-//para pruebas :
 
-
-
-void print_stack(t_stack *stack)
-{
-    t_node *current = stack->top;
-    printf("Números en la pila:\n");
-    while (current)
-    {
-        printf("%d\n", current->value);
-        current = current->next;
-    }
-}
