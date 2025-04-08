@@ -79,7 +79,7 @@ int main() {
     //print_stack(&stack_b);
     return 0;
 }
-*/
+*//// VOY DE LOCOS !!
 void print_stack(t_stack *stack) {
     t_node *current = stack->top;
     while (current != NULL) {
