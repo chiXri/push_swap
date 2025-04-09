@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:40:29 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/08 21:00:02 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:33:51 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,27 @@ void assign_indexes(t_stack *a)
 {
     int *arr = stack_to_array(a);
     sort_array(arr, a->size);
-    int i = 0;
-    while (i < a->size)
-    {
-        printf("arr[%d] = %d\n", i, arr[i]);
-        i++;
-    }
+    int i ;
+
+    t_node *current = a->top;
+ 
+    while(current != NULL){
+        i = 0;
+            while (i < a->size)
+            {
+                    if (arr[i] == current->value){
+                        current->index = i;
+                        printf("Valor: %d → Índice: %d\n", current->value, current->index);
+                        break;
+                       
+                    }   
+                i++;
+            }
+            current = current->next; 
+            
+        }
+      
+   
     free(arr);
 }
 void sort_array(int *arr, int size)

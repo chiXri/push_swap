@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:43:08 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/08 21:09:42 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/09 19:53:19 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 typedef struct s_node {
     int value;
+    int index;
     struct s_node *next;
 } t_node;
 
@@ -46,7 +47,9 @@ void assign_indexes(t_stack *a);
 void sort_array(int* arr, int size);
 int get_max_bits(int *arr, int size);
 void radix_pass(int *arr, int size, int bit);
-//Instrucctions
+void sort_large(t_stack *a,t_stack *b);
+int find_max_position(t_stack *b);
+    //Instrucctions
 void sa(t_stack *a);
 void sb(t_stack *b);
 void ss(t_stack *a, t_stack *b);
@@ -64,7 +67,7 @@ int	is_valid_number(const char *str);
 int	ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
-
-
+void init_stack(t_stack *stack);
+void print_stack(t_stack *stack);
 
 #endif

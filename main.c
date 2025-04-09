@@ -80,14 +80,7 @@ int main() {
     return 0;
 }
 *//// VOY DE LOCOS !!
-void print_stack(t_stack *stack) {
-    t_node *current = stack->top;
-    while (current != NULL) {
-        printf("%d ", current->value);
-        current = current->next;
-    }
-    printf("\n");
-}
+ 
 int main(int argc, char **argv)
 {
 	t_stack stack_a;
@@ -107,23 +100,25 @@ int main(int argc, char **argv)
 		printf("📦 Pila original A:\n");
 		print_stack(&stack_a);
 
+		assign_indexes(&stack_a);
+
 		if (stack_a.size == 2)
 			sa(&stack_a);
 		else if (stack_a.size == 3)
 			sort_three(&stack_a);
 		else if (stack_a.size == 5)
 			sort_five(&stack_a, &stack_b);
-        else
-            assign_indexes(&stack_a); 
+		else
+			sort_large(&stack_a, &stack_b);
 
-		printf("✅ Pila final A ordenada:\n");
+		printf("\n✅ Pila final A ordenada:\n");
 		print_stack(&stack_a);
-    
+
 		if (stack_b.top)
 		{
-			printf("📤 Pila B al final:\n");
+			printf("\n📤 Pila B al final:\n");
 			print_stack(&stack_b);
 		}
 	}
-	return (0);
+	return 0;
 }
