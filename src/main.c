@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:39:06 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/14 19:42:29 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:51:22 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	assign_indexes(&a);
 	if (a.size <= 1 || is_sorted(&a)) 
 	{
 		free_stack(&a);
 		return 0;
 	}
-
-
-	assign_indexes(&a);
+	
 	if (a.size <= 6)
 		sort_small(&a, &b);
 	else
+	
 		sort_large(&a, &b);
-
+	
 	free_stack(&a);
 	free_stack(&b);
 	return 0;

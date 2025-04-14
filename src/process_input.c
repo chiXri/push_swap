@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:13:16 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/14 19:30:13 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:54:56 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,43 @@ int	check_duplicate(t_stack *stack, int value)
 		current = current->next;
 	}
 	return (0);
-}
-int process_args(char *arg, t_stack *stack)
+}int process_args(char *arg, t_stack *stack)
 {
     char **split = ft_split(arg, ' ');
-    int i = 0;
     int value;
+    int count = 0;
 
     if (!split)
         return 0;
 
-    while (split[i])
+    while (split[count])
+        count++;
+
+    while (--count >= 0)
     {
-        if (!ft_atoi(split[i], &value) || check_duplicate(stack, value))
+        if (!ft_atoi(split[count], &value) || check_duplicate(stack, value))
         {
             free_split(split);
-            return 0; 
+            return 0;
         }
         push_stack(stack, value);
-        i++;
     }
+
     free_split(split);
     return 1;
 }
 
+
 int process_input(int argc, char **argv, t_stack *stack)
 {
-    int i = 0;
-
-    while (i < argc)
+    while (--argc >= 0)
     {
-        if (!process_args(argv[i], stack))
+        if (!process_args(argv[argc], stack))
         {
             free_stack(stack);
-            write(2, "Error\n", 6); 
+            write(2, "Error\n", 6);
             return 0;
         }
-        i++;
     }
     return 1;
 }

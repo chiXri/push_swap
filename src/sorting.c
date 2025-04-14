@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/14 19:39:09 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:50:13 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,30 @@
 
 void sort_small(t_stack *a, t_stack *b)
 {
-    if (a->size == 2)
-    {
-        if (a->top->value > a->top->next->value)
-            sa(a);
-    }
-    else if (a->size == 3)
-        sort_three(a);
-    else if (a->size == 4 || a->size == 5)
-    {
-        while (a->size > 3)
-            push_min_to_b(a, b);
-        sort_three(a);
-        while (b->size > 0)
-            pa(a, b);
-    }
-    else if (a->size == 6)
-    {
-        push_min_to_b(a, b);
-        sort_small(a, b);
-        pa(a, b);
-    }
+	if (a->size == 2)
+	{
+		if (a->top->index > a->top->next->index)
+			sa(a);
+	}
+	else if (a->size == 3)
+	{
+		if (!is_sorted(a)) 
+			sort_three(a);
+	}
+	else if (a->size == 4 || a->size == 5)
+	{
+		while (a->size > 3)
+			push_min_to_b(a, b);
+		sort_three(a);
+		while (b->size > 0)
+			pa(a, b);
+	}
+	else if (a->size == 6)
+	{
+		push_min_to_b(a, b);
+		sort_small(a, b);
+		pa(a, b);
+	}
 }
 void sort_three(t_stack *stack)
 {
@@ -43,36 +46,30 @@ void sort_three(t_stack *stack)
 	int b = stack->top->next->index;
 	int c = stack->top->next->next->index;
 
+	// Ya ordenado
 	if (a < b && b < c)
-		return ;
+		return;
+
 	else if (a > b && b < c && a < c)
+		sa(stack);
+	else if (a > b && b > c)
 	{
-		
 		sa(stack);
-	}
-	else if (a > b && b > c){
-	
-		sa(stack);
-	
 		rra(stack);
 	}
 	else if (a > b && b < c && a > c)
-	{
-
 		ra(stack);
-	}
 	else if (a < b && b > c && a < c)
 	{
-	
 		sa(stack);
 		ra(stack);
 	}
 	else if (a < b && b > c && a > c)
-	{
-		
 		rra(stack);
-	}
 }
+
+
+
 
 
 int find_min_position(t_stack *stack){
