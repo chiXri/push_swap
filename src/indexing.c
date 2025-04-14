@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:40:29 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 17:33:51 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:07:03 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,37 @@ int *stack_to_array(t_stack *a)
 void assign_indexes(t_stack *a)
 {
     int *arr = stack_to_array(a);
-    sort_array(arr, a->size);
-    int i ;
+    int *index_map;
+    int size = a->size;
+    t_node *current;
 
-    t_node *current = a->top;
- 
-    while(current != NULL){
-        i = 0;
-            while (i < a->size)
+    sort_array(arr, size);
+    index_map = (int *)malloc(sizeof(int) * size);
+    if (!index_map)
+        return ;
+
+    for (int i = 0; i < size; i++)
+        index_map[i] = arr[i];
+
+    current = a->top;
+    while (current)
+    {
+        int i = 0;
+        while (i < size)
+        {
+            if (index_map[i] == current->value)
             {
-                    if (arr[i] == current->value){
-                        current->index = i;
-                        printf("Valor: %d → Índice: %d\n", current->value, current->index);
-                        break;
-                       
-                    }   
-                i++;
+                current->index = i;
+                break;
             }
-            current = current->next; 
-            
+            i++;
         }
-      
-   
+        current = current->next;
+    }
+    free(index_map);
     free(arr);
 }
+
 void sort_array(int *arr, int size)
 {
 	int max_bits = get_max_bits(arr, size);

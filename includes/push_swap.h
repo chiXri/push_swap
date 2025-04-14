@@ -6,17 +6,18 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:43:08 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 19:53:19 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:48:32 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 # include <stdio.h>
+# include "../libft/libft.h"
 
 typedef struct s_node {
     int value;
@@ -30,6 +31,8 @@ typedef struct s_stack {
     int size;
 } t_stack;
 
+void sort_small(t_stack *a, t_stack *b);
+void free_stack(t_stack *stack);
 void push_stack(t_stack *stack, int value);
 int process_input(int argc, char **argv, t_stack *stack);
 int check_duplicate(t_stack *stack, int value);
@@ -62,12 +65,11 @@ void rra(t_stack *a);
 void rrb(t_stack *b);
 void rrr(t_stack *a,t_stack *b);
 //utils
-int	ft_isdigit(int c);
+
 int	is_valid_number(const char *str);
-int	ft_atoi(const char *str);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
+void free_split(char **split);
 void init_stack(t_stack *stack);
 void print_stack(t_stack *stack);
+int is_sorted(t_stack *stack);
 
 #endif

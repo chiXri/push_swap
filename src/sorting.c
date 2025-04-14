@@ -6,39 +6,75 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 20:54:58 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 19:39:09 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+#include "../includes/push_swap.h"
 
-void sort_three(t_stack *stack){
-
-    int first;
-    int second;
-    int third;
-
-    first = stack->top->value;//10
-    second = stack->top->next->value;//50
-    third = stack->top->next->next->value;//100
-
-    if (first < second && second < third){
-        
+void sort_small(t_stack *a, t_stack *b)
+{
+    if (a->size == 2)
+    {
+        if (a->top->value > a->top->next->value)
+            sa(a);
     }
-    else if (first > second && second < third && first < third){
-            sa(stack);}
-    else if (first > second && second > third){
-            sa(stack);
-            rra(stack);
+    else if (a->size == 3)
+        sort_three(a);
+    else if (a->size == 4 || a->size == 5)
+    {
+        while (a->size > 3)
+            push_min_to_b(a, b);
+        sort_three(a);
+        while (b->size > 0)
+            pa(a, b);
     }
-    else if (first > second && second < third && first > third){
-            ra(stack);}
-    else if (first < second && second > third && first < third){
-            sa(stack);
-            ra(stack);}
-    else if (first < second && second > third && first > third){
-            rra(stack);}
+    else if (a->size == 6)
+    {
+        push_min_to_b(a, b);
+        sort_small(a, b);
+        pa(a, b);
+    }
 }
+void sort_three(t_stack *stack)
+{
+	int a = stack->top->index;
+	int b = stack->top->next->index;
+	int c = stack->top->next->next->index;
+
+	if (a < b && b < c)
+		return ;
+	else if (a > b && b < c && a < c)
+	{
+		
+		sa(stack);
+	}
+	else if (a > b && b > c){
+	
+		sa(stack);
+	
+		rra(stack);
+	}
+	else if (a > b && b < c && a > c)
+	{
+
+		ra(stack);
+	}
+	else if (a < b && b > c && a < c)
+	{
+	
+		sa(stack);
+		ra(stack);
+	}
+	else if (a < b && b > c && a > c)
+	{
+		
+		rra(stack);
+	}
+}
+
+
 int find_min_position(t_stack *stack){
 
     t_node *current;
@@ -85,15 +121,16 @@ int get_index_at(t_stack *stack, int pos)
 {
 	t_node *current = stack->top;
 	int i = 0;
-	while (current != NULL)
+	while (current)
 	{
 		if (i == pos)
 			return current->index;
 		current = current->next;
 		i++;
 	}
-	return -1;
+	return -9999;
 }
+
 
 int find_max_position(t_stack *b)
 {
@@ -127,30 +164,26 @@ void sort_five(t_stack *a, t_stack *b)
 }
 void sort_large(t_stack *a, t_stack *b)
 {
-	int size = a->size;
-	int chunk_count = size <= 100 ? 6 : 14;
-	int chunk_size = (size + chunk_count - 1) / chunk_count;
+	int chunk_count = (a->size <= 100) ? 5 : 25;
+	int chunk_size = (a->size + chunk_count - 1) / chunk_count;
 	int i = 0;
 
 	while (i < chunk_count)
 	{
 		int start = i * chunk_size;
-		int end = (i == chunk_count - 1) ? size - 1 : start + chunk_size - 1;
+		int end = (i == chunk_count - 1) ? a->size - 1 : start + chunk_size - 1;
+		int pushed = 0;
+		int total = a->size;
 
-		int count = 0;
-		int scanned = 0;
-		int max_scans = a->size * 2;
-
-		while (count < chunk_size && scanned < max_scans)
+		while (pushed < chunk_size && total--)
 		{
 			if (a->top->index >= start && a->top->index <= end)
 			{
 				pb(a, b);
-				count++;
+				pushed++;
 			}
 			else
 				ra(a);
-			scanned++;
 		}
 		i++;
 	}

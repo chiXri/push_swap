@@ -6,20 +6,12 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:14 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 19:46:59 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/14 19:40:05 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-	{
-		return (1);
-	}
-	return (0);
-} 
 int	is_valid_number(const char *str)
 {
 	int i;
@@ -39,58 +31,6 @@ int	is_valid_number(const char *str)
 	}
 	return (1);
 }
-int	ft_atoi(const char *str)
-{
-	int		sign;
-	long	result;
-
-	sign = 1;
-	result = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\v'
-		|| *str == '\f' || *str == '\r')
-	{
-		str++;
-	}
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-		{
-			sign = -1;
-		}
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10 + (*str - '0');
-		str++;
-	}
-	return (sign * result);
-}
-
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*p;
-
-	p = s;
-	while (n > 0)
-	{
-		*p = 0;
-		p++;
-		n--;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-
-	ptr = malloc(count * size);
-	if (ptr == NULL)
-		return (ptr);
-	ft_bzero(ptr, size * count);
-	return (ptr);
-}
 
 void print_stack(t_stack *stack) {
     t_node *current = stack->top;
@@ -99,4 +39,33 @@ void print_stack(t_stack *stack) {
         current = current->next;
     }
     printf("\n");
+}
+void free_stack(t_stack *stack)
+{
+    t_node *temp;
+    while (stack->top != NULL)
+    {
+        temp = stack->top;
+        stack->top = stack->top->next;
+        free(temp);
+    }
+    stack->size = 0;
+}
+void free_split(char **split)
+{
+	int i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+int is_sorted(t_stack *stack)
+{
+	t_node *current = stack->top;
+	while (current && current->next)
+	{
+		if (current->index > current->next->index)
+			return 0;
+		current = current->next;
+	}
+	return 1;
 }
