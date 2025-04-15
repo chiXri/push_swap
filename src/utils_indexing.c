@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_indexing.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 20:59:05 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 22:04:41 by m.chiri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -24,20 +13,23 @@
 
 #include "../includes/push_swap.h"
 
-
 int get_max_bits(int *arr, int size)
 {
     int max = arr[0];
     int i = 1;
+
     while (i < size)
     {
         if (arr[i] > max)
             max = arr[i];
         i++;
     }
+    unsigned long um = (max < 0) ? (unsigned long)(-(long)max) : (unsigned long)max;
+
     int bits = 0;
-    while ((max >> bits) != 0)
+    while ((um >> bits) != 0)
         bits++;
+
     return bits;
 }
 

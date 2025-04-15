@@ -6,25 +6,21 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/14 23:50:13 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/15 20:44:12 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-#include "../includes/push_swap.h"
 
 void sort_small(t_stack *a, t_stack *b)
 {
+	if (is_sorted(a))
+		return;
+
 	if (a->size == 2)
-	{
-		if (a->top->index > a->top->next->index)
-			sa(a);
-	}
+		sa(a);
 	else if (a->size == 3)
-	{
-		if (!is_sorted(a)) 
-			sort_three(a);
-	}
+		sort_three(a);
 	else if (a->size == 4 || a->size == 5)
 	{
 		while (a->size > 3)
@@ -40,16 +36,15 @@ void sort_small(t_stack *a, t_stack *b)
 		pa(a, b);
 	}
 }
+
 void sort_three(t_stack *stack)
 {
 	int a = stack->top->index;
 	int b = stack->top->next->index;
 	int c = stack->top->next->next->index;
 
-	// Ya ordenado
 	if (a < b && b < c)
 		return;
-
 	else if (a > b && b < c && a < c)
 		sa(stack);
 	else if (a > b && b > c)
@@ -68,52 +63,53 @@ void sort_three(t_stack *stack)
 		rra(stack);
 }
 
-
-
-
-
-int find_min_position(t_stack *stack){
-
-    t_node *current;
-    
-    current = stack->top;
-    int min = current->value;
-    int min_pos = 0;
-    int i = 0;
-  
-    while(current!= NULL)
-    {
-          if(current->value < min )
-          {
-                min = current->value;
-                min_pos = i;   
-          }
-          i++;
-          current = current->next;
-
-    }
-    return min_pos;
+void sort_five(t_stack *a, t_stack *b)
+{
+	if (is_sorted(a))
+		return;
+	push_min_to_b(a, b);
+	push_min_to_b(a, b);
+	sort_three(a);
+	if (b->top && b->top->next && b->top->value < b->top->next->value)
+		sb(b);
+	pa(a, b);
+	pa(a, b);
 }
+
+int find_min_position(t_stack *stack)
+{
+	t_node *current = stack->top;
+	int min = current->value;
+	int min_pos = 0;
+	int i = 0;
+
+	while (current)
+	{
+		if (current->value < min)
+		{
+			min = current->value;
+			min_pos = i;
+		}
+		i++;
+		current = current->next;
+	}
+	return min_pos;
+}
+
 void push_min_to_b(t_stack *a, t_stack *b)
 {
-	int min_pos;
-	int i;
+	int min_pos = find_min_position(a);
+	int i = 0;
 
-	min_pos = find_min_position(a);
-	i = 0;
 	if (min_pos <= a->size / 2)
-	{
 		while (i++ < min_pos)
 			ra(a);
-	}
 	else
-	{
-		i = 0;
 		while (i++ < a->size - min_pos)
 			rra(a);
-	}
 	pb(a, b);
 }
+
 int get_index_at(t_stack *stack, int pos)
 {
 	t_node *current = stack->top;
@@ -127,7 +123,6 @@ int get_index_at(t_stack *stack, int pos)
 	}
 	return -9999;
 }
-
 
 int find_max_position(t_stack *b)
 {
@@ -148,31 +143,23 @@ int find_max_position(t_stack *b)
 	}
 	return max_pos;
 }
-
-void sort_five(t_stack *a, t_stack *b)
-{
-	push_min_to_b(a, b);
-	push_min_to_b(a, b);
-	sort_three(a);
-	if (b->top && b->top->next && b->top->value < b->top->next->value)
-		sb(b);
-	pa(a, b);
-	pa(a, b);
-}
 void sort_large(t_stack *a, t_stack *b)
 {
-	int chunk_count = (a->size <= 100) ? 5 : 25;
-	int chunk_size = (a->size + chunk_count - 1) / chunk_count;
+	if (is_sorted(a))
+		return;
+
+	int size = a->size;
+	int chunk_count = (size <= 100) ? 5 : 25;
+	int chunk_size = (size + chunk_count - 1) / chunk_count;
 	int i = 0;
 
 	while (i < chunk_count)
 	{
 		int start = i * chunk_size;
-		int end = (i == chunk_count - 1) ? a->size - 1 : start + chunk_size - 1;
+		int end = (i == chunk_count - 1) ? size - 1 : start + chunk_size - 1;
 		int pushed = 0;
-		int total = a->size;
 
-		while (pushed < chunk_size && total--)
+		while (pushed < chunk_size && a->size > 0)
 		{
 			if (a->top->index >= start && a->top->index <= end)
 			{
@@ -188,7 +175,17 @@ void sort_large(t_stack *a, t_stack *b)
 	while (b->size > 0)
 	{
 		int max_pos = find_max_position(b);
-		int max_index = get_index_at(b, max_pos);
+		int max_index = b->top->index;
+		t_node *tmp = b->top;
+		int j = 0;
+
+		while (j < max_pos && tmp)
+		{
+			tmp = tmp->next;
+			j++;
+		}
+		if (tmp)
+			max_index = tmp->index;
 
 		while (b->top->index != max_index)
 		{
