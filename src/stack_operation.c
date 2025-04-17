@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:48:16 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/09 22:04:36 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:41:48 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,21 @@ top → [2] → [3] → [1] → NULL */
     }
 }
     
-void move_rotate_reverse(t_stack *stack){
- 
-        
-        if ((stack->size > 1))
-        {
-            t_node *current = stack->top->next;
+void move_rotate_reverse(t_stack *stack)
+{
+    if (stack->size > 1)
+    {
+        t_node *prev = NULL;
+        t_node *current = stack->top;
 
-            while((current->next->next != NULL))
-            {
-                //penultimo
-                current = current->next;
-            }
-            t_node *temp =current->next;;
-            current->next = NULL;// reniciamos el valor
-            temp->next = stack->top;
-            stack->top = temp;
-        
-            
+        while (current->next)
+        {
+            prev = current;
+            current = current->next;
         }
-        
+ 
+        prev->next = NULL;
+        current->next = stack->top;
+        stack->top = current;
     }
+}

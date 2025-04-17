@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/15 20:44:12 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/17 18:15:44 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void sort_large(t_stack *a, t_stack *b)
 		return;
 
 	int size = a->size;
-	int chunk_count = (size <= 100) ? 5 : 25;
+	int chunk_count = (size <= 100) ? 5 : 12;
 	int chunk_size = (size + chunk_count - 1) / chunk_count;
 	int i = 0;
 
@@ -161,13 +161,31 @@ void sort_large(t_stack *a, t_stack *b)
 
 		while (pushed < chunk_size && a->size > 0)
 		{
-			if (a->top->index >= start && a->top->index <= end)
+			int pos = 0;
+			t_node *tmp = a->top;
+			while (tmp && !(tmp->index >= start && tmp->index <= end))
 			{
-				pb(a, b);
-				pushed++;
+				tmp = tmp->next;
+				pos++;
 			}
+
+			if (!tmp)
+				break;
+
+			if (pos <= a->size / 2)
+				while (pos-- > 0)
+					ra(a);
 			else
-				ra(a);
+				while (pos++ < a->size)
+					rra(a);
+
+			// 🧠 lógica inteligente aquí
+			int pushed_index = a->top->index;
+			pb(a, b);
+			if (pushed_index < size / 2)
+				rb(b); // Deja el número pequeño al fondo
+
+			pushed++;
 		}
 		i++;
 	}
@@ -175,25 +193,14 @@ void sort_large(t_stack *a, t_stack *b)
 	while (b->size > 0)
 	{
 		int max_pos = find_max_position(b);
-		int max_index = b->top->index;
-		t_node *tmp = b->top;
-		int j = 0;
 
-		while (j < max_pos && tmp)
-		{
-			tmp = tmp->next;
-			j++;
-		}
-		if (tmp)
-			max_index = tmp->index;
-
-		while (b->top->index != max_index)
-		{
-			if (max_pos <= b->size / 2)
+		if (max_pos <= b->size / 2)
+			while (max_pos-- > 0)
 				rb(b);
-			else
+		else
+			while (max_pos++ < b->size)
 				rrb(b);
-		}
+
 		pa(a, b);
 	}
 }

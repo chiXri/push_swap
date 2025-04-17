@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:39:06 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/15 20:54:21 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:49:08 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int main(int argc, char **argv)
 	else
 	
 		sort_large(&a, &b);
-	print_stack(&a);
+	//print_stack(&a);
 	free_stack(&a);
 	free_stack(&b);
 	return 0;
 }
+ 
