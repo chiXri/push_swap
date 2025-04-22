@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/22 19:07:52 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/22 23:38:08 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void sort_large(t_stack *a, t_stack *b)
 		return;
 
 	int size = a->size;
-	int chunk_count = (size <= 100) ? 6 : 11;
+	int chunk_count = (size <= 100) ? 5 : 9;
 	int chunk_size = (size + chunk_count - 1) / chunk_count;
 	int i = 0;
 
