@@ -6,7 +6,7 @@
 /*   By: m.chiri <m.chiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:17:49 by m.chiri           #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:44 by m.chiri          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:07:52 by m.chiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void sort_large(t_stack *a, t_stack *b)
 		return;
 
 	int size = a->size;
-	int chunk_count = (size <= 100) ? 5 : 12;
+	int chunk_count = (size <= 100) ? 6 : 11;
 	int chunk_size = (size + chunk_count - 1) / chunk_count;
 	int i = 0;
 
@@ -158,11 +158,13 @@ void sort_large(t_stack *a, t_stack *b)
 		int start = i * chunk_size;
 		int end = (i == chunk_count - 1) ? size - 1 : start + chunk_size - 1;
 		int pushed = 0;
+		int scans = 0;
 
-		while (pushed < chunk_size && a->size > 0)
+		while (pushed < chunk_size && a->size > 0 && scans < size * 2)
 		{
 			int pos = 0;
 			t_node *tmp = a->top;
+
 			while (tmp && !(tmp->index >= start && tmp->index <= end))
 			{
 				tmp = tmp->next;
@@ -173,27 +175,33 @@ void sort_large(t_stack *a, t_stack *b)
 				break;
 
 			if (pos <= a->size / 2)
+			{
 				while (pos-- > 0)
 					ra(a);
+			}
 			else
+			{
 				while (pos++ < a->size)
 					rra(a);
+			}
 
-			// 🧠 lógica inteligente aquí
 			int pushed_index = a->top->index;
 			pb(a, b);
-			if (pushed_index < size / 2)
-				rb(b); // Deja el número pequeño al fondo
+
+			// 🔧 Mejora: rota B solo si está en el tercio bajo del chunk
+			if (pushed_index < (start + end) / 2)
+				rb(b);
 
 			pushed++;
+			scans++;
 		}
 		i++;
 	}
 
+	// Volver desde B a A
 	while (b->size > 0)
 	{
 		int max_pos = find_max_position(b);
-
 		if (max_pos <= b->size / 2)
 			while (max_pos-- > 0)
 				rb(b);
